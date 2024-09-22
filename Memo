@@ -1,0 +1,15 @@
+package project.memo_program.memo;
+
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Data
+public class Memo {
+    private Long id;
+    private String title;//제목
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String date;//날짜
+
+    private String contents;//내용
+}
