@@ -1,0 +1,64 @@
+package project.memo_program.repository;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.util.ObjectUtils;
+import project.memo_program.domain.Memo;
+
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Repository
+public class MemoryMemoRepository implements MemoRepository{
+    private static final Map<Long, Memo> store = new HashMap<>();
+    private static long sequence = 0L;
+
+    @Override
+    public Memo save(Memo memo) {
+        memo.setId(++sequence);
+        store.put(memo.getId(), memo);
+        return memo;
+    }
+
+    @Override
+    public Memo findById(Long id) {
+        return store.get(id);
+
+    }
+
+    @Override
+    public List<Memo> findAll() {
+        return new ArrayList<>(store.values());
+
+    }
+
+    @Override
+    public List<Memo> findAll(MemoSearchCond cond) {
+        String memoName = cond.getTitle();
+        return store.values().stream()
+                .filter(item -> {
+                    if (ObjectUtils.isEmpty(memoName)) {
+                        return true;
+                    }
+                    return item.getTitle().contains(memoName);
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void update(Long itemId, MemoUpdateDto updateParam) {
+        Memo findItem = findById(itemId);
+        findItem.setTitle(updateParam.getTitle());
+        findItem.setDate(LocalDateTime.now());
+        findItem.setContents(updateParam.getContents());
+    }
+
+    @Override
+    public void delete(Long memoId) {
+        store.remove(memoId);
+    }
+
+    public void clearStore() {
+        store.clear();
+    }
+}
