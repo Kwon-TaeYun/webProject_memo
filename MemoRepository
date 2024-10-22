@@ -16,7 +16,7 @@ public class MemoRepository {
         return memo;
     }//저장 기능
 
-    public Memo findById(Long id) {
+    public Memo findById(Long id) 
         return store.get(id);
     }//검색 기능 1
 
