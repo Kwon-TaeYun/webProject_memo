@@ -1,0 +1,15 @@
+package project.memo_program.repository;
+
+import lombok.Data;
+
+@Data
+public class MemoSearchCond {
+    private String title;
+
+    public MemoSearchCond(){
+
+    }
+    public MemoSearchCond(String title) {
+        this.title = title;
+    }
+}
