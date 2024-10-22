@@ -1,0 +1,29 @@
+package project.memo_program.repository;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
+@Data
+public class MemoUpdateDto {
+    private Long id;
+
+    @NotNull
+    private String title;//제목
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @NotNull
+    private LocalDateTime date;//날짜
+
+    private String contents;//내용
+
+    public MemoUpdateDto() {
+    }
+    public MemoUpdateDto(String title, LocalDateTime date, String contents) {
+        this.title = title;
+        this.date = date;
+        this.contents = contents;
+    }
+}
