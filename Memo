@@ -1,15 +1,29 @@
-package project.memo_program.memo;
+package project.memo_program.domain;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Data
 public class Memo {
     private Long id;
+
+    @NotNull
     private String title;//제목
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String date;//날짜
+    @NotNull
+    private LocalDateTime date;//날짜
 
     private String contents;//내용
+
+    public Memo() {
+    }
+    public Memo(String title, LocalDateTime date, String contents) {
+        this.title = title;
+        this.date = date;
+        this.contents = contents;
+    }
 }
