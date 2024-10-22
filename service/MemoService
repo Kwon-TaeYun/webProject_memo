@@ -1,0 +1,17 @@
+package project.memo_program.service;
+
+import project.memo_program.domain.Memo;
+import project.memo_program.repository.MemoSearchCond;
+import project.memo_program.repository.MemoUpdateDto;
+
+import java.util.List;
+
+public interface MemoService {
+    Memo save(Memo memo);
+    Memo findById(Long id);
+    List<Memo> findAll();
+
+    List<Memo> findMemos(MemoSearchCond cond);
+    void update(Long memoId, MemoUpdateDto updateParam);
+    void delete(Long memoId);
+}
