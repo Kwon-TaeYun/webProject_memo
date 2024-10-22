@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 메모 목록</title>
+    <link rel="stylesheet" href="list.css">
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#searchInput {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+#searchBtn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#addMemoBtn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#searchBtn:hover {
+  background-color: #218838;
+}
+
+#addMemoBtn:hover {
+  background-color: #218838;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 5px 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #007bff;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>나의 메모 목록</h1>
+
+    <!-- 검색 창 -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="메모 검색">
+        <button id="searchBtn">검색하기</button>
+    </div>
+
+    <!-- 메모 목록 -->
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>최근 날짜</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 예시 메모 목록 -->
+        <tr>
+            <td>1</td>
+            <td>첫 번째 메모</td>
+            <td>2024-09-25 13:00:00</td>
+            <td><button class="edit-btn" onclick="location.href='edit-memo.html'">수정</button></td>
+            <td><button class="delete-btn">삭제</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>두 번째 메모</td>
+            <td>2024-09-25 13:00:00</td>
+            <td><button class="edit-btn" onclick="location.href='edit-memo.html'" >수정</button></td>
+            <td><button class="delete-btn">삭제</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <button id="addMemoBtn" onclick="location.href='new-memo.html'" >작성하기</button>
+</div>
+<script>
+    function confirmDelete() {
+       if (confirm("삭제하시겠습니까?")) {
+         alert("메모가 삭제되었습니다.");
+       } else {
+         alert("삭제가 취소되었습니다.");
+       }
+     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", confirmDelete);
+      });
+    });
+</script>
+</body>
+</html>
