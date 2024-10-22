@@ -1,0 +1,72 @@
+package project.memo_program.webMemo;
+
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import project.memo_program.domain.Memo;
+import project.memo_program.repository.MemoSearchCond;
+import project.memo_program.repository.MemoUpdateDto;
+import project.memo_program.repository.MemoryMemoRepository;
+import project.memo_program.service.MemoService;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/memos")
+public class MemoController {
+    private final MemoService memoService;
+    @GetMapping
+    public String memos(@ModelAttribute("memoSearch") MemoSearchCond memoSearch, Model model){
+        List<Memo> memos = memoService.findMemos(memoSearch);
+        model.addAttribute("memos", memos);
+        return "main-memo";
+    }
+
+
+    @GetMapping("/add")
+    public String addForm(){
+        return "new-memo";
+    }
+
+    @PostMapping("/add")
+    public String save(Memo memo){
+        // 날짜가 입력되지 않으면 현재 시간으로 설정
+        if (memo.getDate() == null) {
+            memo.setDate(LocalDateTime.now());
+        }
+        memoService.save(memo);
+        return "redirect:/memos";
+    }
+
+    @GetMapping("/edit/{memoId}")
+    public String editForm(@PathVariable Long memoId, Model model){
+        Memo memo = memoService.findById(memoId);
+        model.addAttribute("memo", memo);
+        return "edit-memo";
+    }
+
+    @PostMapping("/edit/{memoId}")
+    public String edit(@PathVariable Long memoId, @ModelAttribute MemoUpdateDto updateParam){
+        memoService.update(memoId, updateParam);
+        return "redirect:/memos/edit/{memoId}";
+    }
+
+    @PostMapping("/delete/{memoId}")
+    public String delete(@PathVariable Long memoId) {
+        memoService.delete(memoId);  // 메모 삭제
+        return "redirect:/memos";    // 삭제 후 메모 목록으로 리다이렉트
+    }
+
+
+
+
+
+
+
+
+
+}
