@@ -1,0 +1,29 @@
+package project.memo_program.config;
+
+import jakarta.persistence.EntityManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import project.memo_program.repository.JpaMemoRepository;
+import project.memo_program.repository.MemoRepository;
+import project.memo_program.service.JpaMemoService;
+import project.memo_program.service.MemoService;
+
+@Configuration
+public class JpaConfig {
+
+    private final EntityManager em;
+
+    public JpaConfig(EntityManager em) {
+        this.em = em;
+    }
+
+    @Bean
+    public MemoService memoService(){
+        return new JpaMemoService(memoRepository());
+    }
+
+    @Bean
+    public MemoRepository memoRepository() {
+        return new JpaMemoRepository(em);
+    }
+}
