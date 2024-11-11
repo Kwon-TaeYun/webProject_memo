@@ -1,0 +1,45 @@
+package project.memo_program.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import project.memo_program.domain.Memo;
+import project.memo_program.repository.MemoRepository;
+import project.memo_program.repository.MemoSearchCond;
+import project.memo_program.repository.MemoUpdateDto;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class JpaMemoService implements MemoService{
+    private final MemoRepository memoRepository;
+    @Override
+    public Memo save(Memo memo) {
+        return memoRepository.save(memo);
+    }
+
+    @Override
+    public Memo findById(Long id) {
+        return memoRepository.findById(id);
+    }
+
+    @Override
+    public List<Memo> findAll() {
+        return memoRepository.findAll();
+    }
+
+    @Override
+    public List<Memo> findMemos(MemoSearchCond cond) {
+        return memoRepository.findAll(cond);
+    }
+
+    @Override
+    public void update(Long memoId, MemoUpdateDto updateParam) {
+       memoRepository.update(memoId, updateParam);
+    }
+
+    @Override
+    public void delete(Long memoId) {
+        memoRepository.delete(memoId);
+    }
+}
