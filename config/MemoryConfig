@@ -1,0 +1,25 @@
+package project.memo_program.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import project.memo_program.repository.MemoRepository;
+import project.memo_program.repository.MemoryMemoRepository;
+import project.memo_program.service.MemoService;
+import project.memo_program.service.MemoryMemoService;
+
+import javax.sql.DataSource;
+
+//@Configuration
+@RequiredArgsConstructor
+public class MemoryConfig {
+    @Bean
+    public MemoService memoService(){
+        return new MemoryMemoService(memoRepository());
+    }
+
+    @Bean
+    public MemoRepository memoRepository(){
+        return new MemoryMemoRepository();
+    }
+}
