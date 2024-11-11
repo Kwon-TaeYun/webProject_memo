@@ -1,22 +1,30 @@
 package project.memo_program.domain;
-
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-
+@Entity
+@Getter @Setter
 @Data
 public class Memo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     private String title;//제목
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private LocalDateTime date;//날짜
 
+    @Lob
     private String contents;//내용
 
     public Memo() {
