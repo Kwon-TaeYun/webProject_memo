@@ -1,0 +1,78 @@
+package project.memo_program.repository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import project.memo_program.domain.Memo;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@Transactional
+public class JpaMemoRepository implements MemoRepository {
+    private final EntityManager em;
+    //private final JPAQueryFactory query;
+
+    public JpaMemoRepository(EntityManager em) {
+        this.em = em;
+    }
+
+
+    @Override
+    public Memo save(Memo memo) {
+        em.persist(memo);
+        return memo;
+    }
+
+    @Override
+    public Memo findById(Long id) {
+        Memo memo = em.find(Memo.class, id);
+        return memo;
+    }
+
+    @Override
+    public List<Memo> findAll() {
+        String jpql = "select m from Memo m";
+        TypedQuery<Memo> query = em.createQuery(jpql, Memo.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Memo> findAll(MemoSearchCond cond) {
+        String title = cond.getTitle();
+        String jpql = "SELECT m FROM Memo m ";
+        if (StringUtils.hasText(title)) {
+            jpql += "WHERE m.title LIKE CONCAT('%', :title, '%') ";
+        }
+        jpql += "ORDER BY m.date DESC";
+
+        TypedQuery<Memo> query = em.createQuery(jpql, Memo.class);
+        if (StringUtils.hasText(title)) {
+            query.setParameter("title", title);
+        }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public void update(Long memoId, MemoUpdateDto updateParam) {
+        Memo findMemo = em.find(Memo.class, memoId);
+        findMemo.setTitle(updateParam.getTitle());
+        findMemo.setDate(LocalDateTime.now());
+        findMemo.setContents(updateParam.getContents());
+
+    }
+
+    @Override
+    public void delete(Long memoId) {
+        Memo memo = em.find(Memo.class, memoId);
+        if (memo != null) {
+            em.remove(memo); // 조회된 엔티티 객체를 삭제
+        }
+    }
+}
+
