@@ -1,0 +1,20 @@
+package project.memo_program;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import project.memo_program.config.JpaConfig;
+import project.memo_program.config.MemoryConfig;
+import project.memo_program.repository.MemoRepository;
+
+@Import(JpaConfig.class)
+@SpringBootApplication
+public class MemoProgramApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MemoProgramApplication.class, args);
+	}
+
+}
